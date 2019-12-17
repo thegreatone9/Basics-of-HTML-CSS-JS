@@ -1,5 +1,5 @@
 # Basics-of-HTML-CSS-JS
-Here you will find my experiences with HTML, CSS and JS:
+Here you will find my experiences with JS, HTML & CSS:
 
 1) An attempt at cloning BBC's website using CSS
 2) A fun reaction testing game using JS
