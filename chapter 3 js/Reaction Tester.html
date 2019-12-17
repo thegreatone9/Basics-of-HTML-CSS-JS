@@ -1,0 +1,143 @@
+<html>
+	<head>
+		<title>Reaction Tester</title>
+		<style type="text/css">
+			
+			#instructions
+			{
+				position:fixed;
+				margin:20px;
+			}
+			
+			#shape
+			{
+				background-color:red;
+				width:100px;height:100px;
+				position:relative;
+				margin:20px;
+				display:none;
+			}
+			
+		</style>
+	</head>
+	
+	<body>
+		
+		<div id="instructions">
+			<h1 style="color:blue"><strong>Welcome to the Reaction Tester!</strong></h1>
+			<p style="color:green"><strong>Instructions:</strong> Click on the randomly appearing boxes as fast as you can for 1 minute, 
+			find the average time taken to click and compare with friends!</p>
+			<button id="start" style="color:purple"><strong>Start!</strong></button>
+			<p style="color:purple" id="time"></p>
+			<p style="color:red; font-weight:bold;" id="result"></p>
+			<p id="tester"></p>
+		</div>
+		
+		
+		<div id="shape">
+		</div>
+		
+		
+		
+		<script type="text/javascript">
+			
+			var startTime;
+			var timeSlot = [];
+			var running = false;
+			var counter = 0;
+			
+			
+			function makeShapeDisappear()
+			{
+				document.getElementById("shape").style.display = "none";
+				if(running)
+				{
+				makeShapeAppear();
+				document.getElementById("tester").innerHTML += "Testing 3 ";
+				}
+			} 
+			
+			function avgTime()
+			{
+				var addition = 0;
+				var avgValue;
+				for(var i=0; i<counter; i++)
+				{
+					if(timeSlot[i]=="null"){
+						timeSlot[i]=0;
+						counter--;
+					}
+					addition += timeSlot[i];
+				}
+				
+				avgValue = addition/counter;
+				document.getElementById("result").innerHTML += avgValue/1000 +"s";
+			}
+			
+			function gameOver(){
+				document.getElementById("shape").style.display = "none";
+				running = false;   			//acknowledge that game has STOPPED
+				alert("Game over!");
+				avgTime();                  //calculate avg time taken
+				document.getElementById("start").disabled = false;
+				document.getElementById("tester").innerHTML += "Testing 4"+running;
+			}
+			
+			function afterAppearance(){ 
+				document.getElementById("start").disabled = true;
+				var top = Math.floor(500*Math.random());
+				var right = Math.floor(-500*Math.random());
+				document.getElementById("shape").style.top = top+"px";
+				document.getElementById("shape").style.right = right+"px";
+				document.getElementById("shape").style.display = "block";
+				startTime = new Date().getTime();
+				setTimeout(makeShapeDisappear, 2500);
+				document.getElementById("tester").innerHTML += "Testing 2 "+running;
+			}
+			
+			function makeShapeAppear(){
+				if(running)
+				{
+				afterAppearance();
+				document.getElementById("tester").innerHTML += "Testing 1 ";
+				}
+			}
+			
+			function reportReactionTime()
+			{
+				var endTime = new Date().getTime();
+				timeSlot[counter] = (endTime - startTime);
+				document.getElementById("time").innerHTML += "||"+timeSlot[counter]/1000 +"s";
+				counter++;	
+			}
+			
+			
+			document.getElementById("start").onclick = function(){
+				document.getElementById("time").innerHTML = "Click time: ";
+				document.getElementById("result").innerHTML = "Your average reaction time: ";
+				running = true; 				//acknowledge that game IS running
+				makeShapeAppear(); 								//call function to make shape appear and start game ending timer
+				if(running){                 					//IN GAME!
+					setTimeout(gameOver,20000);
+					document.getElementById("shape").onclick = function()      //after clicking the shape:
+					{
+						reportReactionTime();
+						makeShapeDisappear(); 								//shape disappears after clicking
+					}
+				}
+			}
+			
+			
+			
+			
+			
+			
+			
+			
+			
+
+		</script>
+		
+	</body>
+	
+</html>

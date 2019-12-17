@@ -1,0 +1,52 @@
+<html>
+	<head>
+	</head>
+	
+	<body>
+		<p>How many fingers are you holding?
+			<select id="selector">
+				<option>0</option>
+				<option>1</option>
+				<option>2</option>
+				<option>3</option>
+				<option>4</option>
+				<option>5</option>
+			</select>
+		</p>
+		<button id="Guess">Guess</button>
+		
+		
+		<script type="text/javascript">
+			
+			document.getElementById("Guess").onclick = function(){
+				var myNumber = document.getElementById("selector").value;
+				alert("Human: GO GO GO! I have selected my number!");
+			
+				var noTried = 0;
+				var answer = false;
+				
+				while(answer!=true)
+				{
+					var aiGuess = Math.floor(Math.random()*6);
+					alert("AI: Is it "+aiGuess+"?");
+					
+					if (aiGuess == myNumber)
+					{
+						noTried++;
+						alert("Human: You got me! I held: "+myNumber+". You took "+noTried+" tries.");
+						answer = true;
+					}
+					else
+					{
+						noTried++;
+						alert("Human: Nope! Try again. You tried "+noTried+" times already.");
+					}
+				}
+			}
+			
+			
+		</script>
+		
+	</body>
+
+</html>
